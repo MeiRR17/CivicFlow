@@ -1,0 +1,23 @@
+name: tests
+on:
+  push:
+    branches: [main, "feature/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  offline-checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Rebuild reproducible site
+        run: |
+          python -m src.build_site
+          git diff --exit-code -- docs/index.html docs/report.json docs/assets/
