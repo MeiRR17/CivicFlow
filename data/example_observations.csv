@@ -1,0 +1,4 @@
+site_id,date,period,observed_minutes,freeflow_minutes,vehicles,source,source_url,measurement_method
+DEMO-A,2026-01-01,07:00-08:00,12,5,120,SYNTHETIC,,paired_demo_measurements
+DEMO-B,2026-01-01,07:00-08:00,8,6,500,SYNTHETIC,,paired_demo_measurements
+DEMO-C,2026-01-01,07:00-08:00,15,9,90,SYNTHETIC,,paired_demo_measurements
