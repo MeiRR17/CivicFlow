@@ -1,0 +1,36 @@
+{
+  "dataset_type": "synthetic",
+  "description": "Fictitious demonstration cases. No site, delay, authority or intervention here is a real-world finding.",
+  "cases": [
+    {
+      "id": "DEMO-001", "domain": "traffic", "site_id": "DEMO-A",
+      "title": "צומת הדגמה א׳ — עומס בוקר", "location": "מיקום מדומה — ללא נקודת ציון אמיתית",
+      "problem": "תרחיש אימון: התארכות זמני נסיעה בשעות הבוקר.",
+      "status": "investigating", "evidence_status": "synthetic", "responsible_body": "לא נקבע (נתוני הדגמה)",
+      "hypotheses": ["תזמון רמזור לא מתאים לשעות השיא", "השתלבות שמצמצמת קיבולת"],
+      "interventions": ["מדידת תור והשהיית רמזור", "בדיקת שינויים בתזמון באמצעות סימולציה"],
+      "next_action": "להגדיר איסוף נתוני שטח ומדדי לפני/אחרי", "sources": [],
+      "updates": [{"date":"2026-11-18", "note":"נוצר תיק הדגמה לצורך בדיקת התהליך; לא התקיים סקר שטח."}]
+    },
+    {
+      "id": "DEMO-002", "domain": "traffic", "site_id": "DEMO-B",
+      "title": "ציר הדגמה ב׳ — צוואר בקבוק", "location": "מיקום מדומה — ללא נקודת ציון אמיתית",
+      "problem": "תרחיש אימון: האטה חוזרת במעבר בין מקטעים.",
+      "status": "reported", "evidence_status": "synthetic", "responsible_body": "לא נקבע (נתוני הדגמה)",
+      "hypotheses": ["ירידה במספר הנתיבים לאורך הציר"],
+      "interventions": ["אימות סיבת ההאטה בתצפיות חוזרות", "בחינת השפעות במקטעים סמוכים"],
+      "next_action": "לבדוק היתכנות של מדידות מייצגות", "sources": [],
+      "updates": [{"date":"2026-11-18", "note":"נוצר תיק הדגמה ללא טענה על אתר קיים."}]
+    },
+    {
+      "id": "DEMO-003", "domain": "traffic", "site_id": "DEMO-C",
+      "title": "מקטע הדגמה ג׳ — השפעות רוחב", "location": "מיקום מדומה — ללא נקודת ציון אמיתית",
+      "problem": "תרחיש אימון: שינוי מקומי המשפיע על גודש במורד הדרך.",
+      "status": "proposed", "evidence_status": "synthetic", "responsible_body": "לא נקבע (נתוני הדגמה)",
+      "hypotheses": ["הסטת עומסים אל צומת שכן"],
+      "interventions": ["לבחון תרחיש חלופי מול מצב בסיס", "למדוד זמני נסיעה לכל המסלול"],
+      "next_action": "לכתוב תוכנית ניסוי לפני התערבות", "sources": [],
+      "updates": [{"date":"2026-11-18", "note":"נפתח תרחיש הדגמה לניתוח השפעות רשת."}]
+    }
+  ]
+}

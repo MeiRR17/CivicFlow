@@ -1,0 +1,43 @@
+{
+  "dataset_type": "synthetic",
+  "observation_count": 3,
+  "case_count": 3,
+  "ranked_observations": [
+    {
+      "site_id": "DEMO-B",
+      "date": "2026-01-01",
+      "period": "07:00-08:00",
+      "vehicles": 500,
+      "observed_minutes": 8.0,
+      "freeflow_minutes": 6.0,
+      "excess_vehicle_minutes": 1000.0,
+      "source": "SYNTHETIC",
+      "source_url": "",
+      "measurement_method": "paired_demo_measurements"
+    },
+    {
+      "site_id": "DEMO-A",
+      "date": "2026-01-01",
+      "period": "07:00-08:00",
+      "vehicles": 120,
+      "observed_minutes": 12.0,
+      "freeflow_minutes": 5.0,
+      "excess_vehicle_minutes": 840.0,
+      "source": "SYNTHETIC",
+      "source_url": "",
+      "measurement_method": "paired_demo_measurements"
+    },
+    {
+      "site_id": "DEMO-C",
+      "date": "2026-01-01",
+      "period": "07:00-08:00",
+      "vehicles": 90,
+      "observed_minutes": 15.0,
+      "freeflow_minutes": 9.0,
+      "excess_vehicle_minutes": 540.0,
+      "source": "SYNTHETIC",
+      "source_url": "",
+      "measurement_method": "paired_demo_measurements"
+    }
+  ]
+}
