@@ -42,6 +42,18 @@ excess_vehicle_minutes = (observed_route_minutes - freeflow_route_minutes) × ve
 
 This proxy is for investigating where data collection may be worthwhile. It is **not** a national congestion ranking, number of lost person-hours, a causal assessment or the economic value of a road intervention. Route/direction alignment, sampling design and demand diversion must be checked before making any policy recommendation. Each site's displayed value is the maximum of its entered periods, **not** a sum over different days.
 
+## Offline aggregate traffic-count importer (v0.2 development)
+
+A separate, opt-in **local ingestion CLI** is now available for public-sector traffic-count CSVs, requiring a source manifest with provenance, license, checksum, temporal coverage and explicit source column mapping. It validates the entire source file and writes an atomic JSON dataset marked `candidate_unverified` alongside aggregate quality measures. Nonmapped columns are discarded.
+
+```bash
+python -m src.ingest_counts --csv /local/source.csv \
+  --manifest /local/source-manifest.json \
+  --output /local/review/counts-import.json
+```
+
+**Important:** this is an offline adapter, not an official dataset publication. No real dataset is bundled or claimed ingested. Count data are **not** travel-time data and are intentionally excluded from the existing excess-vehicle-minutes dashboard. Human provenance/licensing review and a separate publication gate are still required. See [ingestion requirements and example manifest](docs/TRAFFIC_COUNT_IMPORT.md).
+
 ## Roadmap
 
 | Version | Outcome |
