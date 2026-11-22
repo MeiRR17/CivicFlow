@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 import hashlib
 import json
 import os
@@ -24,7 +24,7 @@ PROVENANCE_FIELDS = (
     "provider", "canonical_source_url", "dataset_title", "release_date",
     "accessed_at_utc", "license", "collection_method",
     "geographical_extent", "time_extent", "update_frequency", "known_gaps",
-    "transformation_version", "source_checksum",
+    "transformation_version", "source_checksum", "coverage_start", "coverage_end",
 )
 PERIOD = re.compile(r"^([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-3]):[0-5][0-9]$")
 HASH = re.compile(r"^[a-fA-F0-9]{64}$")
@@ -40,6 +40,8 @@ def nonblank(value: object, field: str, limit: int = 500) -> str:
 
 
 def load_manifest(path: Path) -> dict:
+    if path.stat().st_size > 128 * 1024:
+        raise ValueError("Provenance manifest exceeds 128 KiB")
     with path.open("r", encoding="utf-8") as handle:
         document = json.load(handle)
     if not isinstance(document, dict):
@@ -54,9 +56,14 @@ def load_manifest(path: Path) -> dict:
     if not HASH.fullmatch(document["source_checksum"]):
         raise ValueError("source_checksum must be the 64-digit SHA-256 hex digest")
     try:
-        date.fromisoformat(document["release_date"])
+        published = date.fromisoformat(document["release_date"])
+        earliest = date.fromisoformat(document["coverage_start"])
+        latest = date.fromisoformat(document["coverage_end"])
+        if earliest > latest:
+            raise ValueError("coverage_start must be on or before coverage_end")
     except ValueError as exc:
-        raise ValueError("release_date must be an ISO date") from exc
+        raise ValueError("release_date and coverage dates must be ISO YYYY-MM-DD "
+                         "with valid ordered coverage") from exc
     try:
         accessed = datetime.fromisoformat(
             document["accessed_at_utc"].replace("Z", "+00:00")
@@ -151,7 +158,8 @@ def load_counts(csv_path: Path, mapping: dict) -> tuple[list[dict], dict]:
         "checks": [
             "source_sha256", "manifest_completeness", "column_mapping",
             "unique_observation_key", "ISO_dates", "daily_time_windows",
-            "nonnegative_integer_counts", "nonempty_aggregate_dimensions"
+            "nonnegative_integer_counts", "nonempty_aggregate_dimensions",
+            "declared_temporal_coverage"
         ],
     }
 
@@ -196,6 +204,9 @@ def ingest(csv_path: Path, manifest_path: Path, output: Path, replace: bool = Fa
     if actual.lower() != manifest["source_checksum"].lower():
         raise ValueError("Source SHA-256 does not match the provenance manifest")
     records, quality = load_counts(csv_path, manifest["column_map"])
+    if (quality["earliest_observation"] < manifest["coverage_start"]
+            or quality["latest_observation"] > manifest["coverage_end"]):
+        raise ValueError("Observed CSV dates fall outside the declared coverage window")
     source = {field: manifest[field] for field in PROVENANCE_FIELDS}
     source["source_checksum"] = actual
     result = {
